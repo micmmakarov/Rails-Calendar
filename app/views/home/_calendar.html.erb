@@ -1,0 +1,56 @@
+
+
+<% day=0 %>
+
+<% startweekday = Date.civil(year,month,1).strftime("%u") %>
+<% lastday = Date.civil(year,month,-1).day %>
+<% startweekday = 0 if startweekday.to_i > 6 %>
+
+<div class=calendar>
+  <div>
+
+    <%= link_to "Previous month", "/calendar/"+ year.to_s+"/" +   month.to_s + "/previous", remote:true, :class=> "black button" %>
+    <%= link_to "Next month", "/calendar/"+ year.to_s+"/" +   month.to_s + "/next", remote:true, :class=> "black button" %>
+
+
+    <%= year %>, <%= month %>, <%= startweekday %>
+
+  </div>
+
+
+
+
+  <% 5.times do |w| %>
+
+      <div class=week>
+
+        <% 7.times do |i| %>
+
+            <% if startweekday.to_i==i %>
+                <% day = 1  %>
+                <% startweekday = -1 %>
+            <% end %>
+
+            <% weekday = Date::DAYNAMES[i] %>
+            <div style="background:<%= cycle("#EEEEEE","#CCCCFF")%>;" class="day <%= weekday %>" data-day="<%= i %>">
+              <%= weekday %><br>
+
+
+              <% if day != 0 %>
+
+                  <h1><%= day %></h1>
+                  <% day+=1 %>
+                  <% day = 1 if day > lastday.to_i %>
+              <% end %>
+
+            </div>
+
+
+        <% end %>
+
+        <div class=clear></div>
+
+      </div>
+
+  <% end %>
+</div>
